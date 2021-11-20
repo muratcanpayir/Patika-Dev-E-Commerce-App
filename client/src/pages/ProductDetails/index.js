@@ -9,16 +9,20 @@ import { useCart } from "../../context/CartContext";
 
 function ProductDetails() {
   const { product_id } = useParams();
-  const { addToCart } = useCart();
+  const { addToCart, items } = useCart();
   const { isLoading, IsError, data } = useQuery(["products", product_id], () =>
     getProductDetails(product_id)
   );
   if (isLoading) return "Loading....";
   if (IsError) return "error has occured" + IsError.message;
+
+  const findCartItem = items.find((item) => item._id === product_id);
   const images = data.photos.map((url) => ({ original: url }));
   return (
     <div>
-      <Button colorScheme="orange" onClick={()=>addToCart(data)}>Add To Cart</Button>
+      <Button colorScheme="orange" onClick={() => addToCart(data)}>
+        {findCartItem ? "Remove From Cart" : "Add To Cart"}
+      </Button>
       <Text as="h2" fontSize="2xl">
         {data.title}
       </Text>
