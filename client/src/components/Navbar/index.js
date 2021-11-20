@@ -49,7 +49,7 @@ function Navbar() {
           {
             items.length>0 &&
             <Button onClick={goToCart} colorScheme="pink" variant="outline">
-              Basket {items.length}
+              Cart {items.length}
             </Button>
           }
           <Button onClick={goToProfile}>Profile</Button>
