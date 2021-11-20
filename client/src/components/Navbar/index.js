@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import { Button } from "@chakra-ui/react";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
 
 function Navbar() {
-  const {loggedIn}=useAuth();
+  const { loggedIn } = useAuth();
+  const { items } = useCart();
   console.log(loggedIn);
   const navigate = useNavigate();
   const goToSignup = () => {
@@ -14,8 +16,11 @@ function Navbar() {
   const goToLogin = () => {
     navigate("/login");
   };
-  const goToProfile=()=>{
+  const goToProfile = () => {
     navigate("/profile");
+  };
+  const goToCart=()=>{
+    navigate("/cart");
   }
   return (
     <nav className={styles.nav}>
@@ -30,20 +35,26 @@ function Navbar() {
         </ul>
       </div>
       <div className={styles.right}>
-        {
-          !loggedIn ?
+        {!loggedIn ? (
           <>
-          <Button onClick={goToSignup} colorScheme="blue">
-          Register
-        </Button>
-        <Button onClick={goToLogin} colorScheme="blue">
-          Login
-        </Button>
-        </>
-        :
-        <Button onClick={goToProfile}>Profile</Button>
-        }
-        
+            <Button onClick={goToSignup} colorScheme="blue">
+              Register
+            </Button>
+            <Button onClick={goToLogin} colorScheme="blue">
+              Login
+            </Button>
+          </>
+        ) : (
+          <>
+          {
+            items.length>0 &&
+            <Button onClick={goToCart} colorScheme="pink" variant="outline">
+              Basket {items.length}
+            </Button>
+          }
+          <Button onClick={goToProfile}>Profile</Button>
+          </>
+        )}
       </div>
     </nav>
   );
