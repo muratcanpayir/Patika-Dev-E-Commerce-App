@@ -20,7 +20,7 @@ function ProductDetails() {
   const images = data.photos.map((url) => ({ original: url }));
   return (
     <div>
-      <Button colorScheme="orange" onClick={() => addToCart(data)}>
+      <Button colorScheme={findCartItem ? "pink" : "green"} onClick={() => addToCart(data,findCartItem)}>
         {findCartItem ? "Remove From Cart" : "Add To Cart"}
       </Button>
       <Text as="h2" fontSize="2xl">
