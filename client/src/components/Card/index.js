@@ -2,8 +2,12 @@ import React from "react";
 import { Box, Image, Button } from "@chakra-ui/react";
 import moment from "moment";
 import {useNavigate} from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 function Card({item}) {
+  const {addToCart,items}=useCart();
+  const findCartItem=items.find((basket_item)=>basket_item._id===item._id);
+
   const navigate=useNavigate();
   const goProductDetails=()=>{
     navigate(`/product/${item._id}`);
@@ -22,8 +26,10 @@ function Card({item}) {
           <Box>{item.price}</Box>
         </Box>
       </Box>
-      <Button colorScheme="messenger">
-        Add To Cart
+      <Button colorScheme={findCartItem ? "pink" : "green"} variant="solid" onClick={()=>{addToCart(item,findCartItem)}}>
+        {
+          findCartItem ? "Remove from Cart" : "Add to Cart"
+        }
       </Button>
     </Box>
   );

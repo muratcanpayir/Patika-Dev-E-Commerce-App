@@ -5,8 +5,8 @@ import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/Login";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
-import Profile from "./pages/Profile";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -19,9 +19,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/product/:product_id" element={<ProductDetails />} />
-            <Route path="/profile" element={(
-              <ProtectedRoute />
-            )} />
+            <Route path="/profile" element={<ProtectedRoute />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
       </div>
