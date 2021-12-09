@@ -40,6 +40,8 @@ function Cart() {
           <Box mt="10">
             <Text fontSize="22">Total: {total} TL</Text>
           </Box>
+
+          <Button mt="2" size="sm" colorScheme="green">Order</Button>
         </>
       )}
     </Box>
