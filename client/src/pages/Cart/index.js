@@ -14,17 +14,31 @@ import {
   ModalCloseButton,
   FormControl,
   FormLabel,
-  Input
+  Textarea,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { postOrder } from "../../helpers/api";
 
 function Cart() {
+  const [address, setAddress] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef();
   const { items, removeFromCart } = useCart();
   const total = items.reduce((acc, obj) => acc + obj.price, 0);
+
+  const handleSubmitForm=async ()=>{
+    const itemIds=items.map((item)=>item._id)
+    
+    const input={
+      address,
+      items: JSON.stringify(itemIds),
+    }
+
+    const response= await postOrder(input);
+    console.log(response);
+  }
   return (
     <Box p="5">
       {items.length < 1 && (
@@ -62,30 +76,26 @@ function Cart() {
           <Button mt="2" size="sm" colorScheme="green" onClick={onOpen}>
             Order
           </Button>
-          <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>First name</FormLabel>
-              <Input ref={initialRef} placeholder='First name' />
-            </FormControl>
-          </ModalBody>
+          <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Order</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody pb={6}>
+                <FormControl>
+                  <FormLabel>Address</FormLabel>
+                  <Textarea ref={initialRef} placeholder="Address" value={address} onChange={(e)=>{setAddress(e.target.value)}} />
+                </FormControl>
+              </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} onClick={handleSubmitForm}>
+                  Save
+                </Button>
+                <Button onClick={onClose}>Cancel</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </>
       )}
     </Box>
