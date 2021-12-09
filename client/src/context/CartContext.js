@@ -24,11 +24,16 @@ export const CartProvider=({children})=>{
     setItems(filtered);
   }
 
+  const clearCart=()=>{
+    setItems([]);
+  }
+
   const values={
     items,
     setItems,
     addToCart,
     removeFromCart,
+    clearCart,
   }
 
   return <CartContext.Provider value={values}>{children}</CartContext.Provider>

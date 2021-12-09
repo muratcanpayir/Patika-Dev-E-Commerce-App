@@ -25,7 +25,7 @@ function Cart() {
   const [address, setAddress] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef();
-  const { items, removeFromCart } = useCart();
+  const { items, removeFromCart,clearCart } = useCart();
   const total = items.reduce((acc, obj) => acc + obj.price, 0);
 
   const handleSubmitForm=async ()=>{
@@ -35,9 +35,9 @@ function Cart() {
       address,
       items: JSON.stringify(itemIds),
     }
-
-    const response= await postOrder(input);
-    console.log(response);
+      await postOrder(input);
+      clearCart();
+      onClose();
   }
   return (
     <Box p="5">
