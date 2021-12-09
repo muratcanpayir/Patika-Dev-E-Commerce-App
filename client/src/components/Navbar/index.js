@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 
 function Navbar() {
-  const { loggedIn } = useAuth();
+  const { loggedIn, user } = useAuth();
   const { items } = useCart();
   console.log(loggedIn);
   const navigate = useNavigate();
@@ -19,9 +19,9 @@ function Navbar() {
   const goToProfile = () => {
     navigate("/profile");
   };
-  const goToCart=()=>{
+  const goToCart = () => {
     navigate("/cart");
-  }
+  };
   return (
     <nav className={styles.nav}>
       <div className={styles.left}>
@@ -46,13 +46,23 @@ function Navbar() {
           </>
         ) : (
           <>
-          {
-            items.length>0 &&
-            <Button onClick={goToCart} colorScheme="pink" variant="outline">
-              Cart ({items.length})
-            </Button>
-          }
-          <Button onClick={goToProfile}>Profile</Button>
+            {items.length > 0 && (
+              <Button onClick={goToCart} colorScheme="pink" variant="outline">
+                Cart ({items.length})
+              </Button>
+            )}
+            {user?.role === "admin" && (
+              <Button
+                onClick={() => {
+                  navigate("/admin");
+                }}
+                variant="ghost"
+                colorScheme="pink"
+              >
+                Admin
+              </Button>
+            )}
+            <Button onClick={goToProfile}>Profile</Button>
           </>
         )}
       </div>
