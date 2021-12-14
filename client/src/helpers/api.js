@@ -73,3 +73,10 @@ export const postOrder = async (input) => {
   );
   return data;
 };
+
+export const getOrders = async () => {
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/order`
+  );
+  return data;
+};
